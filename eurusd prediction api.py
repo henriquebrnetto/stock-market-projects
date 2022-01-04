@@ -31,12 +31,13 @@ def RSL(close,maverage):
     RSL = close/maverage
     return RSL
 
-"""
+
 url = 'https://api.twelvedata.com/time_series?apikey=764531eaee034835bb31c961cb11bf1c&interval=1day&symbol=EUR/USD&type=index&outputsize=5000&dp=10&previous_close=true&format=JSON'
 
 response = requests.get(url).json()
 
 df = pd.DataFrame(columns = ['date','close'])
+y = df.iloc[:,1].values
 
 for line in response['values']:
     date = line['datetime']
@@ -44,9 +45,9 @@ for line in response['values']:
     df = df.append({'date' : date, 'close' : close}, ignore_index=True)
     
 """
-
 df = pd.read_csv('eurusd data api.csv')
 y = df.iloc[:,1].values
+"""
 
 #Hurst Exponent
 hurst_data = df.iloc[-500:,1].values
