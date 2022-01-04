@@ -37,12 +37,13 @@ url = 'https://api.twelvedata.com/time_series?apikey=764531eaee034835bb31c961cb1
 response = requests.get(url).json()
 
 df = pd.DataFrame(columns = ['date','close'])
-y = df.iloc[:,1].values
 
 for line in response['values']:
     date = line['datetime']
-    close = line['close']
+    close = float(line['close'])
     df = df.append({'date' : date, 'close' : close}, ignore_index=True)
+    
+y = df.iloc[:,-1]
     
 """
 df = pd.read_csv('eurusd data api.csv')
@@ -50,7 +51,7 @@ y = df.iloc[:,1].values
 """
 
 #Hurst Exponent
-hurst_data = df.iloc[-500:,1].values
+hurst_data = df.iloc[-500:,-1].values
 hurst = get_hurst_exponent(hurst_data)
 
 #Simple Moving Average (SMA)
@@ -70,10 +71,6 @@ for i in range(len(y)):
     RSL20_values.append(res)
     res2 = RSL(y[i],rolling_mean50[i])
     RSL50_values.append(res2)
-
-
-
-
 
 
 
